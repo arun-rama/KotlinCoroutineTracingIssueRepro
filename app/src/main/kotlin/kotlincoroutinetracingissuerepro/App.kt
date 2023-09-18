@@ -3,11 +3,13 @@
  */
 package kotlincoroutinetracingissuerepro
 
+import org.slf4j.LoggerFactory
 import scenario
 
+val logger = LoggerFactory.getLogger("main")
 
 fun main() {
-    println("start")
+    logger.info("start")
     scenario()
-    println("finish")
+    logger.info("finish")
 }

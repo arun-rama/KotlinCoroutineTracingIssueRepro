@@ -26,7 +26,9 @@ import java.util.concurrent.Executors
 import datadog.trace.context.TraceScope
 import io.opentracing.Tracer
 import io.opentracing.util.GlobalTracer
+import org.slf4j.LoggerFactory
 
+val logger = LoggerFactory.getLogger("scenario")
 /**
  * Scenario2
  * Here there are some coroutine scopes created.
@@ -35,9 +37,9 @@ import io.opentracing.util.GlobalTracer
 fun scenario() {
   suspend fun simpleFunc(name: String) = coroutineScope {
     withSpan(name) {
-      //logger.info("$name coroutineContext start")
+      logger.info("$name coroutineContext start")
       delay(1000)
-      //logger.info("$name coroutineContext done")
+      logger.info("$name coroutineContext done")
     }
   }
 

@@ -1,0 +1,10 @@
+<configuration>
+  <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <pattern>%d %-5p [%.25t] %c{25}: %m%n |- trace_id=%X{dd.trace_id} span_id=%X{dd.span_id}%n</pattern>
+    </encoder>
+  </appender>
+  <root level="TRACE">
+    <appender-ref ref="stdout" />
+  </root>
+</configuration>

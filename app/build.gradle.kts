@@ -32,9 +32,15 @@ dependencies {
 
     // kotlinx
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-slf4j:1.6.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-slf4j:1.7.3")
     implementation("io.opentracing:opentracing-api:0.33.0")
-    implementation("com.datadoghq:dd-trace-ot:1.12.1") // latest 1.20.1
+    implementation("com.datadoghq:dd-trace-ot:1.20.1") // latest 1.20.1
+    // logging
+    implementation("ch.qos.logback:logback-core:1.4.11")
+    implementation("ch.qos.logback:logback-classic:1.4.11")
+    implementation("org.slf4j:slf4j-api:2.0.9")
+
+
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
