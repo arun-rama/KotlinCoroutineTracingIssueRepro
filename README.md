@@ -9,8 +9,9 @@ https://gist.github.com/arun-rama/38dbd3484cb1eb80fd129f09c9fcc202
 
 # Steps
 Download the agent to this directory
+(you may have to run build first if the path does not exist)
 ```
-cd app/build/libs
+cd app/build/libs;
 wget -O dd-java-agent.jar https://dtdg.co/latest-java-tracer
 ```
 
