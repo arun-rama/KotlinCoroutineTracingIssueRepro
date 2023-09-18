@@ -33,6 +33,7 @@ dependencies {
     // kotlinx
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-slf4j:1.7.3")
+    // tracing
     implementation("io.opentracing:opentracing-api:0.33.0")
     implementation("com.datadoghq:dd-trace-ot:1.20.1") // latest 1.20.1
     // logging
@@ -53,9 +54,65 @@ java {
 application {
     // Define the main class for the application.
     mainClass.set("kotlincoroutinetracingissuerepro.AppKt")
+    applicationDefaultJvmArgs = listOf(
+        "-Ddd.service=cash-exemplar",
+        "-Ddd.env=staging",
+        "-Ddd.trace.analytics.enabled=true",
+        "-Ddd.trace.partial.flush.min.spans=1000",
+        "-Ddd.tags=testing:dx,app:cash-exemplar,javaagent.path:build/libs/dd-java-agent.jar,javaagent.version:1.12.1",
+        "-Ddd.integration.jdbc-datasource.enabled=true",
+        "-Ddd.service.mapping=cronjob:cash-exemplar-cronjob,elasticsearch:cash-exemplar-elasticsearch,hibernate:cash-exemplar-hibernate,java-aws-sdk:cash-exemplar-java-aws-sdk,kafka:cash-exemplar-kafka,mysql:cash-exemplar-mysql,redis:cash-exemplar-redis,sqs:cash-exemplar-sqs,transacter:cash-exemplar-transacter",
+        "-Ddd.trace.propagation.style.inject=Datadog,B3single,B3multi",
+        "-Ddd.trace.propagation.style.extract=Datadog,B3single,B3multi",
+        "-Ddd.http.server.route-based-naming=false",
+        "-Ddd.trace.client-ip.enabled=true",
+        "-Ddd.integration.kotlin_coroutine.experimental.enabled=true",
+        "-Ddd.profiling.enabled=true",
+        "-XX:FlightRecorderOptions=stackdepth=256",
+        "-javaagent:build/libs/dd-java-agent.jar")
 }
+
+val devMainClass = "kotlincoroutinetracingissuerepro.AppKt"
+
+/*
+tasks.named<RunDev>("runDev").configure {
+    mainClass.set(devMainClass)
+    // set to true
+    environment("DD_TRACE_DEBUG", false)
+    jvmArgs(
+
+    )
+    // dependsOn("downloadDatadogAgent")
+}
+*/
 
 tasks.named<Test>("test") {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
+}
+
+tasks.create("printTaskInputs") {
+    doLast {
+        project.tasks.forEach {
+            println("--------------------------------------------------------------------------------")
+            println(" Task '${project.name}:${it.name}'")
+            println("--------------------------------------------------------------------------------")
+            println("")
+
+            println("File inputs:")
+            it.inputs.files.forEach {
+                println(" - ${it}")
+            }
+            println("")
+
+            println("Property inputs:")
+            it.inputs.properties.forEach {
+                println(" - ${it}")
+            }
+            println("")
+
+            println("--------------------------------------------------------------------------------")
+            println("")
+        }
+    }
 }

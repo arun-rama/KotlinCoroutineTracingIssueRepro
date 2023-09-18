@@ -3,11 +3,13 @@
  */
 package kotlincoroutinetracingissuerepro
 
+import datadog.trace.api.Trace
 import org.slf4j.LoggerFactory
 import scenario
 
 val logger = LoggerFactory.getLogger("main")
 
+@Trace
 fun main() {
     logger.info("start")
     scenario()
